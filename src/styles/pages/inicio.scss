@@ -1,0 +1,15 @@
+.hero {
+  padding: 5rem 0;
+  background-color: var(--color-primary-light);
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+p {
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  color: var(--color-text-muted);
+}

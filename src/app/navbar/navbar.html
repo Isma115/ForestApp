@@ -1,0 +1,33 @@
+<nav class="navbar">
+  <div class="container navbar__inner">
+    <a class="navbar__brand" routerLink="/" (click)="closeMenu()">ForestApp</a>
+
+    <button
+      class="navbar__toggle"
+      type="button"
+      aria-label="Abrir o cerrar el menú"
+      [attr.aria-expanded]="menuOpen()"
+      (click)="toggleMenu()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="navbar__links" [class.navbar__links--open]="menuOpen()">
+      @for (link of links; track link.path) {
+        <li>
+          <a
+            class="navbar__button"
+            [routerLink]="link.path"
+            routerLinkActive="navbar__button--active"
+            [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+            (click)="closeMenu()"
+          >
+            {{ link.label }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>
