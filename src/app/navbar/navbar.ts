@@ -12,9 +12,9 @@ export class Navbar {
 
   protected readonly links = [
     { path: '/', label: 'Inicio' },
-    { path: '/nosotros', label: 'Nosotros' },
-    { path: '/servicios', label: 'Servicios' },
-    { path: '/contacto', label: 'Contacto' },
+    { path: '/mapa-de-espana', label: 'Mapa de España' },
+    { path: '/intranet', label: 'Intranet' },
+    { path: '/iniciar-sesion', label: 'Iniciar Sesión' },
   ];
 
   protected toggleMenu(): void {

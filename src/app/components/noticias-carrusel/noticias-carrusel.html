@@ -1,0 +1,94 @@
+<section
+  class="carrusel"
+  role="region"
+  aria-roledescription="carrusel"
+  aria-label="Últimas noticias forestales"
+  (pointerenter)="alEntrarPuntero($event)"
+  (pointerleave)="alSalirPuntero()"
+  (focusin)="alEnfocar($event)"
+  (focusout)="alDesenfocar()"
+  (keydown.arrowleft)="navegarAnterior()"
+  (keydown.arrowright)="navegarSiguiente()"
+>
+  @if (noticias().length > 0) {
+    <div class="carrusel__fila">
+    @if (noticias().length > 1) {
+      <button class="flecha" type="button" aria-label="Noticia anterior" (click)="navegarAnterior()">
+        <svg viewBox="0 0 24 48" aria-hidden="true"><polyline points="20,4 4,24 20,44" /></svg>
+      </button>
+    }
+    <div class="carrusel__tarjeta">
+    <div class="carrusel__ventana" [attr.aria-live]="enMarcha() ? 'off' : 'polite'">
+      <div
+        class="carrusel__pista"
+        [class.carrusel__pista--fundido-a]="salto() === 1"
+        [class.carrusel__pista--fundido-b]="salto() === 2"
+        [style.transform]="'translateX(-' + actual() * 100 + '%)'">
+        @for (noticia of noticias(); track noticia.enlace; let i = $index) {
+          <!-- Las diapositivas no visibles se ocultan a lectores de pantalla y al teclado (inert) -->
+          <article
+            class="noticia"
+            role="group"
+            aria-roledescription="diapositiva"
+            [attr.aria-label]="i + 1 + ' de ' + noticias().length"
+            [attr.aria-hidden]="i !== actual()"
+            [attr.inert]="i !== actual() ? '' : null"
+          >
+            <div class="noticia__media">
+              @if (mostrarImagen(noticia)) {
+                <img
+                  [src]="noticia.imagenUrl"
+                  alt=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                  (error)="imagenFallida(noticia.imagenUrl)"
+                />
+              } @else {
+                <div class="noticia__relleno" aria-hidden="true">🌲</div>
+              }
+            </div>
+
+            <div class="noticia__cuerpo">
+              <p class="noticia__meta">
+                <span class="noticia__fuente">{{ noticia.fuente }}</span>
+                @if (formatearFecha(noticia.fecha)) {
+                  <span aria-hidden="true">·</span>
+                  <time [attr.datetime]="noticia.fecha">{{ formatearFecha(noticia.fecha) }}</time>
+                }
+              </p>
+              <h3 class="noticia__titulo">{{ noticia.titulo }}</h3>
+              @if (noticia.resumen) {
+                <p class="noticia__resumen">{{ noticia.resumen }}</p>
+              }
+              <a class="btn" [href]="noticia.enlace" target="_blank" rel="noopener noreferrer">
+                Leer en {{ noticia.fuente }}
+                <span class="visually-hidden">(se abre en una pestaña nueva)</span>
+              </a>
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+
+    </div>
+    @if (noticias().length > 1) {
+      <button class="flecha" type="button" aria-label="Noticia siguiente" (click)="navegarSiguiente()">
+        <svg viewBox="0 0 24 48" aria-hidden="true"><polyline points="4,4 20,24 4,44" /></svg>
+      </button>
+    }
+    </div>
+  } @else if (cargando()) {
+    <p class="carrusel__estado carrusel__tarjeta" role="status">Cargando noticias…</p>
+  } @else {
+    <div class="carrusel__estado carrusel__tarjeta" role="status">
+      <p>
+        {{
+          error()
+            ? 'No se han podido cargar las noticias.'
+            : 'Todavía no hay noticias disponibles. Vuelve en unos minutos.'
+        }}
+      </p>
+      <button class="btn" type="button" (click)="recargar()">Reintentar</button>
+    </div>
+  }
+</section>

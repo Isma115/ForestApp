@@ -1,0 +1,227 @@
+:host {
+  display: block;
+}
+
+.carrusel__fila {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.carrusel__tarjeta {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-white);
+  overflow: hidden;
+}
+
+/* Flechas laterales: finas, sin fondo y grandes */
+.flecha {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 6rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+.carrusel__ventana {
+  overflow: hidden;
+}
+
+.carrusel__pista {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+/* Salto de varias noticias (última -> primera): sin recorrido, solo un fundido suave.
+   Hay dos animaciones idénticas para poder reiniciarla en saltos consecutivos. */
+.carrusel__pista--fundido-a {
+  transition: none;
+  animation: fundido-a 0.7s ease-out;
+}
+
+.carrusel__pista--fundido-b {
+  transition: none;
+  animation: fundido-b 0.7s ease-out;
+}
+
+@keyframes fundido-a {
+  from {
+    opacity: 0.2;
+  }
+}
+
+@keyframes fundido-b {
+  from {
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carrusel__pista,
+  .carrusel__pista--fundido-a,
+  .carrusel__pista--fundido-b {
+    transition: none;
+    animation: none;
+  }
+}
+
+.noticia {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  flex: 0 0 100%;
+  min-height: 400px;
+}
+
+.noticia__media {
+  background-color: var(--color-primary-light);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.noticia__relleno {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 4rem;
+}
+
+.noticia__cuerpo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem 2rem;
+}
+
+.noticia__meta {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.noticia__fuente {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.noticia__titulo {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.noticia__resumen {
+  margin: 0 0 0.5rem;
+  color: var(--color-text-muted);
+}
+
+.carrusel__controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.carrusel__puntos {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.punto {
+  width: 0.75rem;
+  height: 0.75rem;
+  padding: 0;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.punto--activo {
+  background-color: var(--color-primary);
+}
+
+.punto:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.carrusel__estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+
+  p {
+    margin: 0;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .flecha {
+    width: 1.5rem;
+  }
+
+  .noticia {
+    grid-template-columns: 1fr;
+    grid-template-rows: 180px auto;
+  }
+
+  .noticia__cuerpo {
+    padding: 1.25rem;
+  }
+}

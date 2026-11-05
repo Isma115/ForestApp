@@ -1,11 +1,21 @@
-.hero {
-  padding: 5rem 0;
-  background-color: var(--color-primary-light);
+.resumen,
+.noticias {
+  padding: 3rem 0;
   text-align: center;
 }
 
-h1 {
-  font-size: clamp(2rem, 5vw, 3rem);
+.noticias {
+  background-color: var(--color-primary-light);
+  text-align: left;
+
+  h2,
+  > .container > p {
+    text-align: center;
+  }
+}
+
+.resumen p {
+  text-align: justify;
 }
 
 p {
