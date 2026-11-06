@@ -1,9 +1,11 @@
-import { Component, OnInit, computed, effect, inject, signal } from '@angular/core';
+import { Component, DestroyRef, OnInit, computed, effect, inject, signal } from '@angular/core';
 import { Noticia } from '../../core/noticia.model';
 import { NoticiasService } from '../../core/noticias.service';
 
 const MAXIMO_NOTICIAS = 6;
 const INTERVALO_MS = 10000;
+// Tiempo máximo mostrando el spinner. Pasado este tiempo sin respuesta, se avisa de que no hay noticias.
+const TIEMPO_MAXIMO_CARGA_MS = 30000;
 const FORMATO_FECHA = new Intl.DateTimeFormat('es-ES', {
   day: 'numeric',
   month: 'long',
@@ -21,6 +23,11 @@ const FORMATO_FECHA = new Intl.DateTimeFormat('es-ES', {
 })
 export class NoticiasCarrusel implements OnInit {
   private readonly servicio = inject(NoticiasService);
+  private readonly destruccion = inject(DestroyRef);
+  private temporizadorCarga?: ReturnType<typeof setTimeout>;
+
+  // true cuando han pasado 30 s y las noticias siguen sin llegar.
+  protected readonly tiempoAgotado = signal(false);
 
   // Quien prefiere menos movimiento (ajuste del sistema operativo) no tiene avance automático.
   private readonly reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -57,10 +64,25 @@ export class NoticiasCarrusel implements OnInit {
       const id = setTimeout(() => this.siguiente(), INTERVALO_MS);
       onCleanup(() => clearTimeout(id));
     });
+
+    // Si la persona sale de la página antes de que llegue la respuesta, se cancela la cuenta de 30 s.
+    this.destruccion.onDestroy(() => clearTimeout(this.temporizadorCarga));
   }
 
   ngOnInit(): void {
+    this.cargarNoticias();
+  }
+
+  // Pide las noticias y arranca la cuenta de 30 s. Si la respuesta llega después, el carrusel aparece igualmente.
+  private cargarNoticias(): void {
     this.servicio.cargar();
+    this.tiempoAgotado.set(false);
+    clearTimeout(this.temporizadorCarga);
+    this.temporizadorCarga = setTimeout(() => {
+      if (this.servicio.cargando()) {
+        this.tiempoAgotado.set(true);
+      }
+    }, TIEMPO_MAXIMO_CARGA_MS);
   }
 
   protected siguiente(): void {
@@ -102,7 +124,7 @@ export class NoticiasCarrusel implements OnInit {
   }
 
   protected recargar(): void {
-    this.servicio.cargar();
+    this.cargarNoticias();
   }
 
   // Solo el ratón pausa: en pantallas táctiles "pointerleave" no siempre llega y se quedaría pausado.

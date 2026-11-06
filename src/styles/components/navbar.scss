@@ -109,3 +109,32 @@
     width: 100%;
   }
 }
+
+/* Botón "Cerrar sesión": mismo aspecto que los enlaces */
+button.navbar__button {
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.navbar__usuario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 220px;
+  padding: 0 1.5rem;
+  overflow: hidden;
+  color: var(--color-primary-light);
+  font-style: italic;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 720px) {
+  .navbar__usuario {
+    max-width: none;
+    width: 100%;
+    min-height: 48px;
+  }
+}

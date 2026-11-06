@@ -77,8 +77,11 @@
       </button>
     }
     </div>
-  } @else if (cargando()) {
-    <p class="carrusel__estado carrusel__tarjeta" role="status">Cargando noticias…</p>
+  } @else if (cargando() && !tiempoAgotado()) {
+    <div class="carrusel__estado carrusel__tarjeta" role="status">
+      <span class="carrusel__cargando" aria-hidden="true"></span>
+      <p>Cargando noticias…</p>
+    </div>
   } @else {
     <div class="carrusel__estado carrusel__tarjeta" role="status">
       <p>

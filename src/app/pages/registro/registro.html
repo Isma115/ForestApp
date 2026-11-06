@@ -1,0 +1,128 @@
+<section class="page auth">
+  <div class="container">
+    <h1>Crear cuenta</h1>
+
+    @if (confirmacion(); as mensaje) {
+      <p class="auth__alerta auth__alerta--exito" role="status">{{ mensaje }}</p>
+      <p class="auth__pie"><a routerLink="/iniciar-sesion">Ir a iniciar sesión</a></p>
+    } @else {
+      <p class="auth__intro">
+        Tras registrarte, tu cuenta quedará pendiente de aprobación antes de poder acceder.
+      </p>
+
+      <form class="auth__form" [formGroup]="formulario" (ngSubmit)="enviar()" novalidate>
+        @if (error(); as e) {
+          <div class="auth__alerta" role="alert">
+            <p>{{ e.mensaje }}</p>
+            @if (erroresServidor().length) {
+              <ul>
+                @for (mensaje of erroresServidor(); track mensaje) {
+                  <li>{{ mensaje }}</li>
+                }
+              </ul>
+            }
+          </div>
+        }
+
+        <label>
+          Nombre
+          <input
+            type="text"
+            formControlName="nombre"
+            autocomplete="name"
+            [attr.aria-invalid]="campoInvalido('nombre')"
+            aria-describedby="nombre-error"
+          />
+        </label>
+        @if (campoInvalido('nombre')) {
+          <span id="nombre-error" class="auth__error">
+            @if (formulario.controls.nombre.hasError('required')) {
+              El nombre es obligatorio.
+            } @else {
+              El nombre no puede superar los 100 caracteres.
+            }
+          </span>
+        }
+
+        <label>
+          Email
+          <input
+            type="email"
+            formControlName="email"
+            autocomplete="email"
+            [attr.aria-invalid]="campoInvalido('email')"
+            aria-describedby="email-error"
+          />
+        </label>
+        @if (campoInvalido('email')) {
+          <span id="email-error" class="auth__error">
+            @if (formulario.controls.email.hasError('required')) {
+              El email es obligatorio.
+            } @else {
+              El email no tiene un formato válido.
+            }
+          </span>
+        }
+
+        <label>
+          Contraseña
+          <input
+            type="password"
+            formControlName="password"
+            autocomplete="new-password"
+            [attr.aria-invalid]="campoInvalido('password')"
+            aria-describedby="password-ayuda password-error"
+          />
+        </label>
+        <span id="password-ayuda" class="auth__ayuda">
+          Mínimo 8 caracteres, con mayúscula, minúscula y número.
+        </span>
+        @if (campoInvalido('password')) {
+          <ul id="password-error" class="auth__error">
+            @let p = formulario.controls.password;
+            @if (p.hasError('required')) {
+              <li>La contraseña es obligatoria.</li>
+            }
+            @if (p.hasError('longitud')) {
+              <li>Debe tener al menos 8 caracteres.</li>
+            }
+            @if (p.hasError('mayuscula')) {
+              <li>Debe incluir una letra mayúscula.</li>
+            }
+            @if (p.hasError('minuscula')) {
+              <li>Debe incluir una letra minúscula.</li>
+            }
+            @if (p.hasError('numero')) {
+              <li>Debe incluir un número.</li>
+            }
+            @if (p.hasError('maxlength')) {
+              <li>No puede superar los 128 caracteres.</li>
+            }
+          </ul>
+        }
+
+        <label>
+          Confirmar contraseña
+          <input
+            type="password"
+            formControlName="confirmarPassword"
+            autocomplete="new-password"
+            [attr.aria-invalid]="campoInvalido('confirmarPassword') || noCoinciden()"
+            aria-describedby="confirmar-error"
+          />
+        </label>
+        @if (campoInvalido('confirmarPassword')) {
+          <span id="confirmar-error" class="auth__error">Confirma la contraseña.</span>
+        } @else if (noCoinciden()) {
+          <span id="confirmar-error" class="auth__error">Las contraseñas no coinciden.</span>
+        }
+
+        <button class="btn" type="submit" [disabled]="enviando()">
+          {{ enviando() ? 'Enviando…' : 'Crear cuenta' }}
+        </button>
+      </form>
+
+      <p class="auth__pie">¿Ya tienes cuenta? <a routerLink="/iniciar-sesion">Inicia sesión</a></p>
+    }
+  </div>
+</section>

@@ -1,0 +1,51 @@
+.page {
+  padding: 4rem 0;
+}
+
+// Contenido centrado en columna (ilustración, título, texto y botón)
+.intranet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  p {
+    max-width: 480px;
+    color: var(--color-text-muted);
+  }
+
+  &__icono {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+// Colores de la ilustración, tomados de la paleta global
+.icono__arbol {
+  fill: var(--color-accent);
+}
+
+.icono__tronco {
+  fill: #6b4f2a;
+}
+
+.icono__suelo {
+  stroke: var(--color-border);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.icono__arco {
+  fill: none;
+  stroke: var(--color-primary-dark);
+  stroke-width: 5;
+}
+
+.icono__candado {
+  fill: var(--color-primary-dark);
+}
+
+.icono__cerradura {
+  fill: var(--color-white);
+}

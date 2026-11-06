@@ -1,0 +1,14 @@
+<div class="mapa">
+  <div class="mapa__barra">
+    <button class="btn" type="button" [disabled]="buscandoUbicacion()" (click)="usarMiUbicacion()">
+      {{ buscandoUbicacion() ? 'Buscando tu ubicación…' : 'Usar mi ubicación' }}
+    </button>
+    <button class="btn" type="button" (click)="alternarCapa()">
+      {{ satelite() ? 'Ver mapa de carreteras' : 'Ver vista satélite' }}
+    </button>
+  </div>
+  @if (mensaje(); as texto) {
+    <p class="mapa__mensaje" role="status">{{ texto }}</p>
+  }
+  <div class="mapa__lienzo" #lienzo role="region" aria-label="Mapa interactivo de España"></div>
+</div>

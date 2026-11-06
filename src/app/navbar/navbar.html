@@ -15,7 +15,7 @@
     </button>
 
     <ul class="navbar__links" [class.navbar__links--open]="menuOpen()">
-      @for (link of links; track link.path) {
+      @for (link of linksVisibles(); track link.path) {
         <li>
           <a
             class="navbar__button"
@@ -26,6 +26,14 @@
           >
             {{ link.label }}
           </a>
+        </li>
+      }
+      @if (auth.usuario(); as usuario) {
+        <li>
+          <span class="navbar__usuario" [title]="usuario.email">{{ usuario.nombre }}</span>
+        </li>
+        <li>
+          <button class="navbar__button" type="button" (click)="cerrarSesion()">Cerrar sesión</button>
         </li>
       }
     </ul>

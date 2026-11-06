@@ -202,6 +202,28 @@
   }
 }
 
+// Spinner del estado de carga: un aro que gira. Con "reducir movimiento" se queda fijo.
+.carrusel__cargando {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: carrusel-girar 0.9s linear infinite;
+}
+
+@keyframes carrusel-girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carrusel__cargando {
+    animation: none;
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

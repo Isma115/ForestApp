@@ -1,0 +1,91 @@
+/* Estilos compartidos por las páginas de iniciar sesión y registro */
+.page {
+  padding: 4rem 0;
+}
+
+.auth__intro {
+  color: var(--color-text-muted);
+}
+
+.auth__form {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 420px;
+}
+
+label {
+  display: grid;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+
+input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font: inherit;
+
+  &:focus {
+    outline: 2px solid var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: #b3261e;
+  }
+}
+
+.auth__ayuda {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.auth__error {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: 0.85rem;
+  color: #b3261e;
+}
+
+.auth__alerta {
+  margin: 0 0 0.5rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid #b3261e;
+  background-color: #fbeaea;
+
+  p,
+  ul {
+    margin: 0;
+  }
+
+  ul {
+    padding-left: 1.2rem;
+  }
+}
+
+.auth__alerta--aviso {
+  border-left-color: #b26a00;
+  background-color: #fff4e0;
+}
+
+.auth__alerta--exito {
+  max-width: 520px;
+  border-left-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.btn {
+  justify-self: start;
+  margin-top: 0.8rem;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+}
+
+.auth__pie {
+  margin-top: 1.5rem;
+}
